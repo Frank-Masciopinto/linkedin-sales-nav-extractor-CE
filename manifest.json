@@ -1,0 +1,34 @@
+{
+	"name": "BEXTEN-Y",
+	"version": "1.00",
+	"description": "Extract lead information from any company or profile Linkedin page",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [{
+		"matches": [ "https://www.linkedin.com/sales/*"],
+		"js": [ "script/content_sales_Navigator.js" ],
+		"css": ["style/linkedin.css"],
+		"all_frames": true
+	}],
+	"permissions": [
+		"tabs",
+		"notifications",
+		"activeTab",
+		"storage",
+		"scripting"
+	],
+	"host_permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
+	"icons": {
+		"42": "Images/42.png",
+		"128": "Images/128.png"
+	},
+	"action": {
+		"default_title": "BEXTEN_Auto_Acc - Data Research and Enrichment",
+		"default_popup": "html/popup.html"
+	}
+}

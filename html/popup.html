@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>bPersonal Accounts Enrichment</title>
+        <link rel="stylesheet" href="../style/popup.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    </head>
+    <body>
+        <div class="app-widget">
+            <div class="flex-justify-center">
+                <img src="../Images/logo.png" alt="logo" style="max-width:70%">
+            </div>  
+            <div class="gray_box" id="login" style="display:none">
+				<div class="space-evenly-flex flex-wrap">
+					<div class="left"><label for="email">Email <font style="color:#ff0000">*</font>:</label></div>
+					<div class="right"><input type="text" id="email"></div>
+				</div>
+				<div class="space-evenly-flex flex-wrap">
+					<div class="left"><label for="upwd">Password <font style="color:#ff0000">*</font>:</label></div>
+					<div class="right"><input type="password" id="upwd"></div>
+				</div>
+				<div><hr></div>
+				<div><button id="loginbtn" class="bextra_button" style="margin-left:44%">Login</button></div>
+            </div>  
+            <div id="regkey" style="display:none" class="gray_box">
+				<div><label id="higesture"></label></div>
+			</div>
+			<div class="gray_box" id="status" style="color:#f67c07;text-align:center;">
+				Identify your CE using your email address and password
+			</div>
+			<div class="gray_box" style="height: 60px;">
+				<div class="left"><label for="campaign_ID">Campaign ID <font style="color:#ff0000">*</font>:</label></div>
+				<div class="right"><input type="text" id="campaign_ID"></div>
+			</div>
+			<div class="gray_box">
+				<div class="messages margin-bottom-line">Messages</div>
+				<div id="counters-table">
+				</div>
+			</div>
+        </div>
+    </body>
+    <script src="../script/popup.js"></script>
+</html>

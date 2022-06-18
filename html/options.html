@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BEXMAIL Options</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="../style/popup.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body style="max-height:350px;width:600px;">
+	<h2 style="text-align:center">OPTIONS</h2>
+	<div class="gray_box">
+		<div class="space-evenly-flex flex-wrap">
+			<div class="left"><label for="regkey">My CE Reg Key <font style="color:#ff0000">*</font>:</label></div>
+			<div class="right"><input type="text" id="regkey"></div>
+		</div>
+		<div id="last-time-read-emails" style=" text-align: center; margin-top: 7px;"></div>
+	</div>
+	<div class="gray_box">
+		<div>Locat Storage Data</div>
+		<div id="localdata">
+		</div>
+	</div>
+	<div id="status"></div>
+	<button id="save" class="bextra_button" style="margin-left:44%">Save</button>  
+	<script src="../script/options.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+.button-Linkedin {
+  position: relative;
+  height: 35px;
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: orange;
+  color: black;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: inherit;
+  z-index: 0;
+  margin: 1px;
+  padding: 5px 12px;
+  outline: none;
+  text-decoration: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(22, 76, 167, 0.6);
+  border-image: initial;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1) 0s;
+}
+button#bpersonal_btn_SN {
+  margin-left: 5px;
+}
+.button-Linkedin:hover {
+  animation: rotate 0.7s ease-in-out both;
+}
+.button-ALL-Linkedin {
+  position: relative;
+  height: 35px;
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: black;
+  color: orange;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: inherit;
+  z-index: 0;
+  margin: 1px;
+  padding: 5px 12px;
+  outline: none;
+  text-decoration: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(22, 76, 167, 0.6);
+  border-image: initial;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1) 0s;
+}
+
+.button-ALL-Linkedin:hover {
+  animation: rotate 0.7s ease-in-out both;
+}
+
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: rotate(3deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotate(-3deg) translate3d(0, 0, 0);
+  }
+  75% {
+    transform: rotate(1deg) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
