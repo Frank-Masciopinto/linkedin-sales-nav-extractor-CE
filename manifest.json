@@ -1,5 +1,5 @@
 {
-	"name": "BEXTEN-Y",
+	"name": "bPersonal-Y",
 	"version": "1.00",
 	"description": "Extract lead information from any company or profile Linkedin page",
 	"manifest_version": 3,
@@ -28,7 +28,7 @@
 		"128": "Images/128.png"
 	},
 	"action": {
-		"default_title": "BEXTEN_Auto_Acc - Data Research and Enrichment",
+		"default_title": "bPersonal-Y - Data Entry Research Tool",
 		"default_popup": "html/popup.html"
 	}
 }
