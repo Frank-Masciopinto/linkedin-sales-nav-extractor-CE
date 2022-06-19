@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     console.log("onMessage ==> ", request);
     if (request.message == "Tab_Updated") {
         tab_updated();
-        console.lof(adding_buttons_called)
+        console.log(adding_buttons_called)
     }
     else if (request.message === 'are_you_there_content_script?') {
         if (adding_buttons_called == true) {
