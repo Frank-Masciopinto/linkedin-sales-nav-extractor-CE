@@ -118,7 +118,7 @@ chrome.tabs.onActivated.addListener(tab => {
 
 //On Every new tab Update
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    console.log("----->>> CHECK HERE: /n", changeInfo)
+    // console.log("----->>> CHECK HERE: /n", changeInfo)
     if (changeInfo.status == "complete") {
         inject_javas();
     }
@@ -201,13 +201,14 @@ function call_API_ERROR(error_message, line_number) {
 }
 // function to insert scripts by checking if they are already injected first
 function check_than_Insert_JS(js_File_Name, css_File_Name, tabId) {
-    console.log("check_than_Insert_JS(js_File_Name, css_File_Name, tabId", js_File_Name);
+    console.log("check_than_Insert_JS()", js_File_Name);
 
     let content_Message = "are_you_there_content_script?";
 		chrome.tabs.sendMessage(tabId, {
 			message: content_Message
 		}, function (msg) {
 			msg = msg || {};
+            console.log(msg)
 			if (chrome.runtime.lastError) {
                 setTimeout(() => {
                     console.log("Inside runtime error, NO SCRIPT IS THERE! ------+++++ new function---> " + js_File_Name);

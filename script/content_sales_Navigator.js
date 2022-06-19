@@ -1,7 +1,9 @@
+let adding_buttons_called = false;
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    console.log("chrome.runtime.onMessage.addListener((request, sender, sendResponse) ==> ", request);
+    console.log("onMessage ==> ", request);
     if (request.message == "Tab_Updated") {
         tab_updated();
+        console.lof(adding_buttons_called)
     }
     else if (request.message === 'are_you_there_content_script?') {
         if (adding_buttons_called == true) {
@@ -16,7 +18,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         }
     }
 })
-let adding_buttons_called;
 
 async function extract_Contact_Information(all_leads) {
     let connect_Message;
@@ -487,7 +488,7 @@ async function extract_Company_Information() {
         })
         window.close()
     }
-
+    adding_buttons_called = false
 }
 
 async function click(btn) {
@@ -542,6 +543,7 @@ async function add_button(company_div, btn_class) {
 }
 
 async function add_buttons() {
+    console.log("add_buttons()")
     let all_company_results = document.getElementById("search-results-container").querySelectorAll(".save-to-list-dropdown")
     let btn_class = "artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view artdeco-button artdeco-button--primary"
     for (let i=0; i< all_company_results.length; i++) {
@@ -559,6 +561,8 @@ async function add_buttons() {
 
 function tab_updated() {
     if ((document.URL.includes("/company/") || document.URL.includes("/school/")) && window.name.includes("Sales Nav Extract Company BTN CLICKED")) {
+        console.log("URL includes -> first cond")
+        adding_buttons_called = true
         var existCondition = setInterval(function () {
             //wait for loading page
             if (document.querySelector('[aria-label="Open dropdown menu for more account actions"]')) {
@@ -575,12 +579,14 @@ function tab_updated() {
             }
             //All Contacts LISTED
             else { console.log("*********waiting for page to load before extracting, in loop...**************")
-            }
-        }, 1000);
-    }
-    else if (document.URL.includes("sales/search/company")) {
-        var existCondition = setInterval(function () {
-            //wait for loading page
+        }
+    }, 1000);
+}
+else if (document.URL.includes("sales/search/company")) {
+    console.log("URL includes -> sales/search/company")
+    adding_buttons_called = true
+    var existCondition = setInterval(function () {
+        //wait for loading page
                 if (document.querySelector("#search-results-container") && !document.querySelector("#bpersonal_btn_SN")) {
                     console.log("Page Loaded")
                     clearInterval(existCondition);
@@ -597,7 +603,6 @@ function tab_updated() {
                         });
                     }, 1500);
                     setTimeout(() => {
-                        adding_buttons_called = true
                         add_buttons()
                     }, 3000);
             }
