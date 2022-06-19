@@ -6,7 +6,6 @@ let LS = {
   };
 let linked_url = "https://www.linkedin.com";
 let api_URL_Company = "https://api.bextra.io/account/insert";
-let api_URL_Contact = "https://api.bextra.io/account/insert_contacts";
 let api_ERROR_URL = "https://api.bextra.io/error/report";
 let api_get_next_company = "https://api.bextra.io/ce/get_next_account_to_research";
 let api_URL_account_has_been_researched = "https://api.bextra.io/account/researched";
@@ -399,12 +398,6 @@ async function call_API_fetch(record, company_Or_Contact) {
         if (company_Or_Contact == "Company") {
             api_url = api_URL_Company + '/' + await LS.getItem("user_id") + '/' + await LS.getItem("list_code");
         } 
-        else if (company_Or_Contact == "Contact-Enrichment") {
-            api_url = api_URL_Contact + '/' + await LS.getItem("user_id") + '/' + await LS.getItem("list_code")
-        } 
-        else {
-            api_url = api_URL_Contact + '/' + await LS.getItem("user_id") + '/' + await LS.getItem("list_code")
-        }
         //Defining API message
         let api_message;
         function check_NaN(val) {
@@ -433,6 +426,7 @@ async function call_API_fetch(record, company_Or_Contact) {
                 "instagrampage": record.Company_Instagram,
                 "twitterpage": record.Company_Twitter,
                 "linkedin_id": record.company_id,
+				"noresearchyet": true,
                 "address": [{
                         "full_address": record.Address,
                         "addresstype": ""
