@@ -21,7 +21,6 @@ let Message_Connect;
 let Company_Name;
 
 chrome.runtime.onInstalled.addListener(async (details) => {
-    console.log("ONINSTALL")
     if (details.reason == "install") {
         let today_counter = {
             index: 0,
@@ -41,11 +40,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 });
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     if (request.message === "fetch_phone") {  //called from content.js and content_sales_navigator.js
-        console.log("chrome.runtime.onMessage.addListener ==> if \"fetch_phone\" ==> One message received", request.payload);
         let fetched_info = await get_Website_email(request.payload.Company_Domain)
         is_Automation = true;
-        console.log("***********HERE****************")
-        console.log(fetched_info)
         request.payload.Extra_phones = fetched_info.Phone
         request.payload.Email = fetched_info.Email
         request.payload.Company_Facebook = fetched_info.facebook
@@ -60,7 +56,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 //Check how many days have passed for leads counter
 async function counter_daily_check() {
     let counters = await LS.getItem("Counters");
-    console.log(counters);
 	let counterindex = (counters ? counters[counters.length - 1].index + 1 : 0);
     let today_counter = {
         index: counterindex,
@@ -68,13 +63,10 @@ async function counter_daily_check() {
         contacts: 0,
         failures: 0
     }
-console.log("today_counter", today_counter);
     let last_date_checked = new Date(await LS.getItem("Counters_last_date_checked"));
     let oneDay = 86400000;
     let today_Date = new Date();
-    console.log("Checking if 1 day passed");
     let days_Passed_Since_last_check = Math.round(Math.abs((today_Date - last_date_checked) / oneDay));
-    console.log(days_Passed_Since_last_check);
     //If 1 days passed since last check, add new today counter
     if (days_Passed_Since_last_check > 0) {
         counters.push(today_counter);
@@ -108,7 +100,6 @@ chrome.tabs.onActivated.addListener(tab => {
     });
     function inject_Js(link, tabId) {
         if (link.includes("chrome://") || link.includes("developer.chrome.com") || link.includes("chrome-extension://") || link.includes("chrome-error://") || link.includes("chrome.google.com/webstore") || link.includes("about:") || link.includes("addons.mozilla.org") || link.includes("moz-extension://")) {
-            console.log("Inside google chrome")
         } 
         else if (link.includes("linkedin.com/sales/")) {
             check_than_Insert_JS("content_sales_Navigator.js", "linkedin.css", tabId)
@@ -118,7 +109,6 @@ chrome.tabs.onActivated.addListener(tab => {
 
 //On Every new tab Update
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    // console.log("----->>> CHECK HERE: /n", changeInfo)
     if (changeInfo.status == "complete") {
         inject_javas();
     }
@@ -201,24 +191,19 @@ function call_API_ERROR(error_message, line_number) {
 }
 // function to insert scripts by checking if they are already injected first
 function check_than_Insert_JS(js_File_Name, css_File_Name, tabId) {
-    console.log("check_than_Insert_JS()", js_File_Name);
-
     let content_Message = "are_you_there_content_script?";
 		chrome.tabs.sendMessage(tabId, {
 			message: content_Message
 		}, function (msg) {
 			msg = msg || {};
-            console.log(msg)
 			if (chrome.runtime.lastError) {
                 setTimeout(() => {
                     console.log("Inside runtime error, NO SCRIPT IS THERE! ------+++++ new function---> " + js_File_Name);
-
                 }, 700);
 			} 
             else if (msg.status != 'yes') {
 			} 
             else {
-				console.log("already injected js => " + js_File_Name);
                 chrome.tabs.sendMessage(tabId, {
                     message: "Tab_Updated"
                 })
@@ -227,7 +212,6 @@ function check_than_Insert_JS(js_File_Name, css_File_Name, tabId) {
 }
 
 async function scrape_company_About_and_employees_AUTO(company_url) {
-        console.log("Scraping about and employees now!     scrape_company_About_and_employees_AUTO(): " + company_url)
         let keywords = await LS.getItem("Keywords")
         let company_name = company_url.replace(/(https\:\/\/)(\w+)\.linkedin\.com\/company\//i, '').replace(/\//i, '')
         let result_Company_Extraction = await extract_Next_Company_Lead(company_url)
@@ -248,7 +232,6 @@ async function scrape_company_About_and_employees_AUTO(company_url) {
         if (keywords != null) {
             let keywords_array = JSON.parse(keywords)
                 if (keywords_array[0].key != null) {
-                    console.log(keywords_array)
                     let key_length = keywords_array.length
                         for (i = 0; i < key_length; i++) {
                             if (keywords_array[i].send_connect_request == true) {
@@ -274,7 +257,6 @@ async function scrape_company_About_and_employees_AUTO(company_url) {
 }
 
 async function get_Website_email(domain) {
-    console.log("inside get Email, website >>> " + domain)
     return new Promise ((res, rej) => {
         let set_emails = new Set;
         let phone_confirmed = new Set;
@@ -320,7 +302,6 @@ async function get_Website_email(domain) {
                                 contact_Page_full = domain + contact_Page
                             }
                             else {
-                                console.log("inside else")
                                 contact_Page_full = domain + contact_Page.substring(1, contact_Page.length)
                             }
                         }
@@ -331,21 +312,17 @@ async function get_Website_email(domain) {
                     catch{contact_Page_full = null}
     
                     let listOfEmails = txt.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+(\.it|\.biz|\.com|\.net|\.co\.uk|\.fr|\.com\.br|\.de|\.es|\.nl|\.com\.au|\.in|\.ca|\.ru|\.co\.jp|\.be|\.be|\.com\.mx|\.co\.id|\.com\.sg|\.ch|\.net\.au)+/gi);
-                    console.log(listOfEmails)
                     if (listOfEmails !== null){
                         listOfEmails.forEach(function(email){
                             if (email == ".@.null" || email.includes("sentry-next.") || email.includes("example.com") || email.includes("youremail") || email.includes("name@")) {}
                             else {set_emails.add(email)}
                         })
                         list_of_emails = Array.from(set_emails)
-                        console.log(list_of_emails)
                     }
                     else {
                         list_of_emails = null
                     }
-                    console.log("INSIDE PHONE REGEX")
                     phone_n = txt.match(/href=(["'])tel:(?:(?=(\\?))\2.)*\1+/gi)
-                    console.log(phone_n)
                     if (phone_n != null){
                         for (let i=0; i<phone_n.length; i++) {
                             phone_confirmed.add(phone_n[i].match(/(?<=href="tel:).*?(?=\")/g)[0])
@@ -365,14 +342,10 @@ async function get_Website_email(domain) {
                                         if (email == ".@.null" || email.includes("sentry-next.") || email.includes("example.com") || email.includes("youremail") || email.includes("name@")) {}
                                         else {set_emails.add(email)}
                                     })
-                                    console.log(set_emails)
                                     list_of_emails = Array.from(set_emails)
-                                    console.log("INSIDE PHONE REGEX")
                                     phone_n = txt.match(/href=(["'])tel:(?:(?=(\\?))\2.)*\1+/gi)
-                                    console.log(phone_n)
                                     if (phone_n != null){
                                         for (let i=0; i<phone_n.length; i++) {
-                                            console.log(phone_n[i])
                                             phone_confirmed.add(phone_n[i].match(/(?<=href="tel:).*?(?=\")/g)[0].replace(";", "; "))
                                         }
                                     }
@@ -389,7 +362,6 @@ async function get_Website_email(domain) {
                                 }
                                 else {
                                     list_of_emails = null
-                                    console.log("No emails found on Contact page and home page Found");
                                     res({phones: "N/A", emails: "N/A", instagram: company_Instagram, facebook: company_Facebook, twitter: company_Twitter})
                                 }
                                     
@@ -423,8 +395,6 @@ async function get_Website_email(domain) {
 
 async function call_API_fetch(record, company_Or_Contact) {
     return new Promise(async (res, rej) => {
-        console.log("call_API_fetch('" + company_Or_Contact+ "')", record);
-        console.log(company_Or_Contact)
         //defining right url API
         if (company_Or_Contact == "Company") {
             api_url = api_URL_Company + '/' + await LS.getItem("user_id") + '/' + await LS.getItem("list_code");
@@ -487,7 +457,6 @@ async function call_API_fetch(record, company_Or_Contact) {
         })
         .then((response) => {
     //        console.log(JSON.stringify(api_message))
-            console.log(response)
             return response})
         .then(async (json) => {
             job_experience_array_new_url = null
