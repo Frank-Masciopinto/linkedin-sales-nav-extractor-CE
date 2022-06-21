@@ -450,7 +450,7 @@ async function call_API_fetch(record, company_Or_Contact) {
             body: JSON.stringify(api_message)
         })
         .then((response) => {
-    //        console.log(JSON.stringify(api_message))
+            console.log(response)
             return response})
         .then(async (json) => {
             job_experience_array_new_url = null

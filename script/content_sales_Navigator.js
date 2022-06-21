@@ -397,6 +397,7 @@ async function extract_Company_Information() {
     let check_name;
     await click(document.querySelector('[aria-label="Open dropdown menu for more account actions"]'))
     await click(document.querySelector('[data-control-name="open_account_details"]'))
+
     let no_value = "null"
     try {
         company_name = document.querySelector('[data-anonymize="company-name"]').innerText
@@ -501,7 +502,7 @@ async function click(btn) {
         btn.dispatchEvent(new MouseEvent('mouseup', { 'bubbles': true }))
         setTimeout(() => {
             res()
-        }, 450);
+        }, 850);
 })
 }
 
@@ -516,7 +517,13 @@ async function click_see_more_buttons() {
 
 async function add_button(company_div, btn_class) {
     return new Promise((res, rej) => {
-        let btn_container = company_div.querySelector("button").parentElement.parentElement
+        let btn_container;
+        if (company_div.querySelector("button")) {
+            btn_container = company_div.querySelector("button").parentElement.parentElement
+        }
+        else {
+            btn_container = company_div.querySelector("a").parentElement.parentElement
+        }
         let new_btn = document.createElement("button")
         new_btn.id = "bpersonal_btn_SN"
         new_btn.className = btn_class
@@ -607,6 +614,7 @@ else if (document.URL.includes("sales/search/company")) {
                     }, 3000);
             }
             else if (document.querySelector("#bpersonal_btn_SN")) {
+                adding_buttons_called = false
                 clearInterval(existCondition);
             }
             //All Contacts LISTED
